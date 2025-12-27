@@ -1,20 +1,19 @@
-import React from "react";
-import AdminHeader from "../components/AdminHeader";
-import Footer from "../../common/Components/Footer";
+import React from 'react'
+import AdminHeader from '../components/AdminHeader'
+import Footer from '../../common/Components/Footer'
 import DeleteIcon from "@mui/icons-material/Delete";
 
-function UserProducts() {
+function AdminProducts() {
   return (
     <>
-      <AdminHeader />
+    <AdminHeader/>
       <div className="w-full min-h-screen bg-gray-50 px-6 md:px-20 py-10">
 
-    
+     
       <h1 className="text-4xl font-bold text-green-700 text-center mb-10">
-        User Uploaded Products
+        User & Farmer Uploaded Products
       </h1>
 
-      
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 
         {/* PRODUCT CARD 1 */}
@@ -30,7 +29,6 @@ function UserProducts() {
             <p className="text-gray-600 text-sm mt-1">Category: Vegetables</p>
             <p className="text-green-700 font-semibold mt-1">₹40 / kg</p>
 
-          
             <div className="flex justify-end mt-4">
               <button className="bg-red-600 text-white p-2 rounded-full hover:bg-red-700 transition">
                 <DeleteIcon fontSize="small" />
@@ -105,9 +103,9 @@ function UserProducts() {
       </div>
 
     </div>
-      <Footer />
+    <Footer/>
     </>
-  );
+  )
 }
 
-export default UserProducts;
+export default AdminProducts

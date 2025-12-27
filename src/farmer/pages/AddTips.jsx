@@ -37,6 +37,17 @@ function AddTips() {
               />
             </div>
 
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">
+                Image
+              </label>
+              <input
+                type="text"
+                placeholder="Place Your Image Url Here.."
+                className="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-green-400"
+              />
+            </div>
+
          
             <div>
               <label className="block text-gray-700 font-medium mb-1">

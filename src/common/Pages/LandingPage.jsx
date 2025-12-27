@@ -13,29 +13,34 @@ import { Link } from "react-router-dom";
 function LandingPage() {
       const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+const services = [
+  {
+    title: "Crops",
+    desc: "Buy fresh crops directly from farmers.",
+    icon: <AgricultureIcon fontSize="large" className="text-green-600" />,
+    path: "/products",
+  },
+  {
+    title: "News & Tips",
+    desc: "Stay updated with farming insights.",
+    icon: <InfoIcon fontSize="large" className="text-green-600" />,
+    path: "/usernews",
+  },
+  {
+    title: "Tools, Tractors & Workers",
+    desc: "Find equipment and skilled workers easily.",
+    icon: <BuildIcon fontSize="large" className="text-green-600" />,
+    path: "/tools",
+  },
+  {
+    title: "Videos",
+    desc: "Watch expert farming tutorials and guides.",
+    icon: <PlayCircleFilledIcon fontSize="large" className="text-green-600" />,
+    path: "/videos",
+  },
+];
 
-    const services = [
-    {
-      title: "Crops",
-      desc: "Buy fresh crops directly from farmers.",
-      icon: <AgricultureIcon fontSize="large" className="text-green-600" />,
-    },
-    {
-      title: "News & Tips",
-      desc: "Stay updated with farming insights.",
-      icon: <InfoIcon fontSize="large" className="text-green-600" />,
-    },
-    {
-      title: "Tools, Tractors & Workers",
-      desc: "Find equipment and skilled workers easily.",
-      icon: <BuildIcon fontSize="large" className="text-green-600" />,
-    },
-    {
-      title: "Videos",
-      desc: "Watch expert farming tutorials and guides.",
-      icon: <PlayCircleFilledIcon fontSize="large" className="text-green-600" />,
-    },
-  ];
+   
 
    const blogs = [
     {
@@ -191,30 +196,32 @@ Our Services
     </div>
 
     {/* our services */}
-  <div id="service" className=" w-full py-20 px-6 md:px-20 bg-gray-50">
-      <h2 className="text-4xl font-bold text-center text-green-700 mb-12">
-        Our Services
-      </h2>
+    <div id="service" className="w-full py-20 px-6 md:px-20 bg-gray-50">
+  <h2 className="text-4xl font-bold text-center text-green-700 mb-12">
+    Our Services
+  </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {services.map((s, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: index * 0.15 }}
-            viewport={{ once: true }}
-            className="bg-white p-8 rounded-2xl shadow hover:shadow-lg transition cursor-pointer"
-          >
-            <div className="flex justify-center mb-4">{s.icon}</div>
-            <h3 className="text-xl font-semibold text-center text-gray-800 mb-2">
-              {s.title}
-            </h3>
-            <p className="text-gray-600 text-center">{s.desc}</p>
-          </motion.div>
-        ))}
-      </div>
-    </div>
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    {services.map((s, index) => (
+      <Link key={index} to={s.path}>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: index * 0.15 }}
+          viewport={{ once: true }}
+          className="bg-white p-8 rounded-2xl shadow hover:shadow-lg hover:scale-105 transition cursor-pointer"
+        >
+          <div className="flex justify-center mb-4">{s.icon}</div>
+          <h3 className="text-xl font-semibold text-center text-gray-800 mb-2">
+            {s.title}
+          </h3>
+          <p className="text-gray-600 text-center">{s.desc}</p>
+        </motion.div>
+      </Link>
+    ))}
+  </div>
+</div>
+ 
 
     {/* Blogs */}
 

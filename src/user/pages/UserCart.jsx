@@ -1,10 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Footer from '../../common/Components/Footer'
 import UserHeader from '../components/UserHeader'
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { CartQuantityAPI, getCartAPI } from '../../services/allAPI';
+import SERVERURL from '../../services/serverURL';
 
 function UserCart() {
+
+  const [cartItems, setCartItems] = useState([]);
+
+ const token = sessionStorage.getItem("token");
+    const reqHeader = {
+      Authorization: `Bearer ${token}`,
+    };
+
+const handleGetCart=async()=>{
+const result = await getCartAPI(reqHeader)
+setCartItems(result.data)
+}
+
+const handleIncrement = async(cartId)=>{
+  await CartQuantityAPI({cartId,action:"increment"},reqHeader)
+  handleGetCart()
+}
+
+const handleDecrement = async (cartId)=>{
+  await CartQuantityAPI({cartId,action:"decrement"},reqHeader)
+  handleGetCart()
+}
+
+
+useEffect(() => {
+handleGetCart()
+}, []);
+
+const totalPrice = cartItems.reduce((sum,item)=>sum+item.quantity*item.productId.price,0)
+
+
   return (
     <>
     <UserHeader/>
@@ -16,81 +49,43 @@ function UserCart() {
       </h1>
 
       {/* CART LIST */}
-      <div className="space-y-6">
-
-        {/* ITEM 1 */}
-        <div className="bg-white shadow-md rounded-xl p-4 flex items-center gap-6">
-          
-          {/* Image */}
+      {cartItems.length>0? cartItems.map((item,index)=>(
+        <div key={index} className="space-y-6">
+          <div className="bg-white shadow-md rounded-xl p-4 flex items-center gap-6">
           <img
-            src="https://images.pexels.com/photos/143133/pexels-photo-143133.jpeg"
+            src={`${SERVERURL}/imgUploads/${item.productId.uploadImage}`}
             className="w-24 h-24 object-cover rounded-lg"
-            alt="item"
-          />
-
-          {/* Info */}
+            alt={item.productId.productName}
+          />       
           <div className="flex-1">
-            <h2 className="text-lg font-semibold text-gray-800">Organic Tomatoes</h2>
-            <p className="text-green-600 font-medium mt-1">₹40 / kg</p>
-          </div>
-
-          {/* Quantity */}
+            <h2 className="text-lg font-semibold text-gray-800">{item.productId.productName}</h2>
+            <p className="text-green-600 font-medium mt-1">{item.productId.price} / {item.productId.unit}</p>
+          </div>      
           <div className="flex items-center space-x-3">
-            <button className="bg-green-600 text-white p-2 rounded-full">
+            <button onClick={()=>handleDecrement(item._id)} className="bg-green-600 text-white p-2 rounded-full">
               <RemoveIcon fontSize="small" />
             </button>
-
-            <span className="font-semibold text-lg">1</span>
-
-            <button className="bg-green-600 text-white p-2 rounded-full">
+            <span className="font-semibold text-lg">{item.quantity}</span>
+            <button onClick={()=>handleIncrement(item._id)}  className="bg-green-600 text-white p-2 rounded-full">
               <AddIcon fontSize="small" />
             </button>
           </div>
-
           {/* Item Total */}
           <div>
-            <p className="text-lg font-semibold text-gray-800">₹40</p>
+            <p className="text-lg font-semibold text-gray-800">₹ {item.quantity*item.productId.price}</p>
           </div>
         </div>
-
-        {/* ITEM 2 */}
-        <div className="bg-white shadow-md rounded-xl p-4 flex items-center gap-6">
-          
-          <img
-            src="https://images.pexels.com/photos/65174/pexels-photo-65174.jpeg"
-            className="w-24 h-24 object-cover rounded-lg"
-            alt="item"
-          />
-
-          <div className="flex-1">
-            <h2 className="text-lg font-semibold text-gray-800">Fresh Carrots</h2>
-            <p className="text-green-600 font-medium mt-1">₹30 / kg</p>
-          </div>
-
-          <div className="flex items-center space-x-3">
-            <button className="bg-green-600 text-white p-2 rounded-full">
-              <RemoveIcon fontSize="small" />
-            </button>
-
-            <span className="font-semibold text-lg">2</span>
-
-            <button className="bg-green-600 text-white p-2 rounded-full">
-              <AddIcon fontSize="small" />
-            </button>
-          </div>
-
-          <div>
-            <p className="text-lg font-semibold text-gray-800">₹60</p>
-          </div>
-        </div>
-
       </div>
+      ))      
+      :
+      <p>No Items Added..</p>
+      }
 
       {/* TOTAL + ORDER BUTTON */}
       <div className="bg-white shadow-xl rounded-xl p-6 mt-10 max-w-xl mx-auto">
         <div className="flex justify-between text-xl font-bold text-gray-800 mb-4">
           <span>Total Price</span>
-          <span>₹100</span>
+          <span>₹{totalPrice}</span>
         </div>
 
         <button className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition">

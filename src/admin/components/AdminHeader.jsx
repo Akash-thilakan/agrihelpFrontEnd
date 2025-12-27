@@ -34,14 +34,11 @@ function AdminHeader() {
               users
             </Link>
 
-            <Link to="/userproducts" className="hover:text-green-300">
+            <Link to="/adminproducts" className="hover:text-green-300">
               {" "}
-              User Products
+              products
             </Link>
-            <Link to="/farmerproducts" className="hover:text-green-300">
-              {" "}
-              Farmer Products
-            </Link>
+           
 
             <Link to="/adminnews" className="hover:text-green-300">
               News

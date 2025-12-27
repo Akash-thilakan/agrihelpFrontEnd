@@ -1,8 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import UserHeader from '../components/UserHeader'
 import Footer from '../../common/Components/Footer'
+import { getAllCropsAPI } from '../../services/allAPI'
+import { Link } from 'react-router-dom';
+import SERVERURL from '../../services/serverURL';
 
 function UserHome() {
+
+  const [allCrops, setAllCrops] = useState([]);
+  const [tools, setTools] = useState([]);
+
+  const getAllCrops=async()=>{
+    const result = await getAllCropsAPI()
+    console.log(result);
+    setAllCrops(result.data.crops)
+    setTools(result.data.tools)
+    
+  }
+useEffect(() => {
+getAllCrops()
+}, []);
   return (
     <>
     <UserHeader/>
@@ -13,7 +30,7 @@ function UserHome() {
       <div className="w-full h-60 bg-gradient-to-r from-green-500 to-green-900 text-white flex flex-col justify-center items-center text-center shadow-lg">
         <h1 className="text-4xl font-bold animation-float">Welcome, User 👋</h1>
         <p className="text-lg mt-2 text-green-100 animation-float">
-            Explore fresh crops, tools, tractors, and more!
+            Explore , tools, tractors, and more!
         </p>
       </div>
 
@@ -26,133 +43,45 @@ function UserHome() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 
           {/* Card 1 */}
-          <div className="appear bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition cursor-pointer">
+          {allCrops?.map((item,index)=>(
+            <div key={index} className="appear bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition cursor-pointer">
             <img
-              src="https://t4.ftcdn.net/jpg/00/69/28/27/360_F_69282769_nnGX7SidAFQs8SwUgmZFx5Zlz6sXRkl4.jpg"
+              src={`${SERVERURL}/imgUploads/${item.uploadImage}`}
               className="w-full h-40 object-cover"
               alt="Tomatoes"
             />
             <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">Organic Tomatoes</h3>
-              <p className="text-green-600 font-medium mt-2">₹40 / kg</p>
+              <h3 className="text-xl font-semibold text-gray-800">{item.productName}</h3>
+              <p className="text-green-600 font-medium mt-2">{item.price} / {item.unit}</p>
+              <Link to={`/userviewproduct/crop/${item._id}`}>
               <button className="w-full mt-4 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
                 View Details
-              </button>
+              </button></Link>
             </div>
           </div>
 
-          {/* Card 2 */}
-          <div className="appear bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition cursor-pointer">
+          ))}
+         
+           {/* Card 2 */}
+          {tools?.map((item,index)=>(
+            <div key={index} className="appear bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition cursor-pointer">
             <img
-              src="https://images.pexels.com/photos/65174/pexels-photo-65174.jpeg"
-              className="w-full h-40 object-cover"
-              alt="Carrots"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">Fresh Carrots</h3>
-              <p className="text-green-600 font-medium mt-2">₹30 / kg</p>
-              <button className="w-full mt-4 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
-                View Details
-              </button>
-            </div>
-          </div>
+              src={`${SERVERURL}/imgUploads/${item.uploadImage}`}
 
-          {/* Card 3 */}
-          <div className="appear bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition cursor-pointer">
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU5A1fx6Mc5os31AlCnt3625dR_eXLhnrcSQ&s"
-              className="w-full h-40 object-cover"
-              alt="Potatoes"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">Potatoes</h3>
-              <p className="text-green-600 font-medium mt-2">₹25 / kg</p>
-              <button className="w-full mt-4 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
-                View Details
-              </button>
-            </div>
-          </div>
-
-          {/* Card 4 */}
-          <div className="appear bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition cursor-pointer">
-            <img
-              src="https://images.pexels.com/photos/5217880/pexels-photo-5217880.jpeg"
-              className="w-full h-40 object-cover"
-              alt="Cauliflower"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">Cauliflower</h3>
-              <p className="text-green-600 font-medium mt-2">₹35 / piece</p>
-              <button className="w-full mt-4 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
-                View Details
-              </button>
-            </div>
-          </div>
-
-           {/* Card 1 */}
-          <div className="appear bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition cursor-pointer">
-            <img
-              src="https://t4.ftcdn.net/jpg/00/69/28/27/360_F_69282769_nnGX7SidAFQs8SwUgmZFx5Zlz6sXRkl4.jpg"
               className="w-full h-40 object-cover"
               alt="Tomatoes"
             />
             <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">Organic Tomatoes</h3>
-              <p className="text-green-600 font-medium mt-2">₹40 / kg</p>
+              <h3 className="text-xl font-semibold text-gray-800">{item.productName}</h3>
+              <p className="text-green-600 font-medium mt-2">{item.price} / {item.unit}</p>
+              <Link to={`/userviewproduct/tool/${item._id}`}>
               <button className="w-full mt-4 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
                 View Details
-              </button>
+              </button></Link>
             </div>
           </div>
 
-          {/* Card 2 */}
-          <div className="appear bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition cursor-pointer">
-            <img
-              src="https://images.pexels.com/photos/65174/pexels-photo-65174.jpeg"
-              className="w-full h-40 object-cover"
-              alt="Carrots"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">Fresh Carrots</h3>
-              <p className="text-green-600 font-medium mt-2">₹30 / kg</p>
-              <button className="w-full mt-4 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
-                View Details
-              </button>
-            </div>
-          </div>
-
-          {/* Card 3 */}
-          <div className="appear bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition cursor-pointer">
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU5A1fx6Mc5os31AlCnt3625dR_eXLhnrcSQ&s"
-              className="w-full h-40 object-cover"
-              alt="Potatoes"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">Potatoes</h3>
-              <p className="text-green-600 font-medium mt-2">₹25 / kg</p>
-              <button className="w-full mt-4 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
-                View Details
-              </button>
-            </div>
-          </div>
-
-          {/* Card 4 */}
-          <div className="appear bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition cursor-pointer">
-            <img
-              src="https://images.pexels.com/photos/5217880/pexels-photo-5217880.jpeg"
-              className="w-full h-40 object-cover"
-              alt="Cauliflower"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">Cauliflower</h3>
-              <p className="text-green-600 font-medium mt-2">₹35 / piece</p>
-              <button className="w-full mt-4 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
-                View Details
-              </button>
-            </div>
-          </div>
-
+          ))}
         </div>
       </div>
 

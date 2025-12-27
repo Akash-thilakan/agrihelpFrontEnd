@@ -1,8 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import FarmerHeader from '../components/FarmerHeader'
 import Footer from '../../common/Components/Footer'
+import { getAllCropsAPI } from '../../services/allAPI';
+import SERVERURL from '../../services/serverURL';
+import { Link } from 'react-router-dom';
 
 function FarmerHome() {
+    const [allCrops, setAllCrops] = useState([]);
+    const [tools, setTools] = useState([]);
+  
+    const getAllCrops=async()=>{
+      const result = await getAllCropsAPI()
+      console.log(result);
+      setAllCrops(result.data.crops)
+      setTools(result.data.tools)
+      
+    }
+  useEffect(() => {
+  getAllCrops()
+  }, []);
   return (
     <>
     <FarmerHeader/>
@@ -37,66 +53,53 @@ function FarmerHome() {
         </div>
       </div>
 
-      {/* PRODUCT CARDS SECTION */}
-      <div className="px-6 md:px-20 mt-12 mb-10">
+      
+      <div className="px-6 md:px-20 mt-10">
         <h2 className="text-3xl font-semibold text-green-700 mb-6">
-          Recommended for You
+          Recommended Products
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 
-          {/* CARD 1 */}
-          <div className="appear bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition cursor-pointer">
+          {/* Card 1 */}
+          {allCrops?.map((item,index)=>(
+            <div key={index} className="appear bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition cursor-pointer">
             <img
-              src="https://images.pexels.com/photos/143133/pexels-photo-143133.jpeg"
-              alt="Seeds"
+              src={`${SERVERURL}/imgUploads/${item.uploadImage}`}
               className="w-full h-40 object-cover"
+              alt="Tomatoes"
             />
             <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">Organic Tomato Seeds</h3>
-              <p className="text-green-600 mt-2 font-medium">₹120 / Packet</p>
+              <h3 className="text-xl font-semibold text-gray-800">{item.productName}</h3>
+              <p className="text-green-600 font-medium mt-2">{item.price} / {item.unit}</p>
+              <Link to={`/farmerviewproduct/crop/${item._id}`}>
+              <button className="w-full mt-4 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
+                View Details
+              </button></Link>
             </div>
           </div>
 
-          {/* CARD 2 */}
-          <div className="appear bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition cursor-pointer">
+          ))}
+           {/* Card 2 */}
+          {tools?.map((item,index)=>(
+            <div key={index} className="appear bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition cursor-pointer">
             <img
-              src="https://images.pexels.com/photos/1301856/pexels-photo-1301856.jpeg"
-              alt="Fertilizer"
+              src={`${SERVERURL}/imgUploads/${item.uploadImage}`}
+
               className="w-full h-40 object-cover"
+              alt="Tomatoes"
             />
             <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">Organic Fertilizer</h3>
-              <p className="text-green-600 mt-2 font-medium">₹350 / Bag</p>
+              <h3 className="text-xl font-semibold text-gray-800">{item.productName}</h3>
+              <p className="text-green-600 font-medium mt-2">{item.price} / {item.unit}</p>
+              <Link to={`/farmerviewproduct/tool/${item._id}`}>
+              <button className="w-full mt-4 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
+                View Details
+              </button></Link>
             </div>
           </div>
 
-          {/* CARD 3 */}
-          <div className="appear bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition cursor-pointer">
-            <img
-              src="https://images.pexels.com/photos/1359315/pexels-photo-1359315.jpeg"
-              alt="Corn seeds"
-              className="w-full h-40 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">Hybrid Corn Seeds</h3>
-              <p className="text-green-600 mt-2 font-medium">₹150 / Packet</p>
-            </div>
-          </div>
-
-          {/* CARD 4 */}
-          <div className="appear bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition cursor-pointer">
-            <img
-              src="https://images.pexels.com/photos/12611101/pexels-photo-12611101.jpeg"
-              alt="Tools"
-              className="w-full h-40 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-gray-800">Harvesting Tools</h3>
-              <p className="text-green-600 mt-2 font-medium">₹650 / Set</p>
-            </div>
-          </div>
-
+          ))}
         </div>
       </div>
 

@@ -1,10 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 function UserHeader() {
+    const navigate =useNavigate()
+const handleLogout =()=>{
+  sessionStorage.clear()
+  navigate("/login")
+}
   return (
     <>
     <div className="w-full bg-green-700 text-white py-4 px-6 shadow-lg sticky top-0 z-50">
@@ -43,7 +48,7 @@ function UserHeader() {
             <ShoppingCartOutlinedIcon className="hover:text-green-300 cursor-pointer" />
           </Link>
 
-          <button className="flex items-center space-x-1 hover:text-red-300">
+          <button onClick={handleLogout}  className="flex items-center space-x-1 hover:text-red-300">
             <LogoutIcon fontSize="small" />
             <span>Logout</span>
           </button>

@@ -1,8 +1,84 @@
-import React from 'react'
+import React, { useState } from 'react'
 import FarmerHeader from '../components/FarmerHeader'
 import Footer from '../../common/Components/Footer'
+import { addCropAPI } from '../../services/allAPI';
+import { toast } from 'react-toastify';
 
 function AddCrops() {
+   const [productDetails, setProductDetails] = useState({
+      productName:"",
+      category:"",
+      price:"",
+      unit:"",
+      description:"",
+      uploadImage:[]
+    });
+
+      const handleAddProduct=async()=>{
+       const {productName,category,price,unit,description,uploadImage} = productDetails
+       if(!productName || !category ||!price || !unit || !description ||uploadImage.length===0){
+        toast.info("fill the form completely")
+        return
+       }
+       const token = sessionStorage.getItem("token");
+    
+    if (!token) {
+      toast.error("Please login again");
+      return;
+    }
+
+    
+    const reqHeader = {
+      Authorization: `Bearer ${token}`
+    };
+    
+    
+    
+      const reqBody = new FormData()
+      for(let key in productDetails){
+        if(key!=="uploadImage"){
+        reqBody.append(key,productDetails[key])
+        }else{
+          reqBody.append("uploadImage", uploadImage[0]);
+        }
+      }
+      try{
+        const result = await addCropAPI(reqBody,reqHeader)
+        console.log(result);
+        if(result.status===200){
+          toast.success("Product added successfully ")
+        }else if(result.status==401){
+          toast.warning(result.response.data)
+        }else{
+          toast.error("error in adding Product")
+        }
+        
+      }catch(error){
+        toast.error("something went wrong")
+      }
+        setProductDetails({
+          productName:"",
+          category:"",
+          price:"", 
+          unit:"",
+          description:"",
+          uploadImage:[]
+        })
+        
+      }
+
+
+       const handleFile=(e)=>{
+    const file = e.target.files[0];
+
+  setProductDetails({
+    ...productDetails,
+    uploadImage: [file] // single image
+  });
+  }
+
+
+
   return (
     <>
     <FarmerHeader/>
@@ -32,6 +108,8 @@ function AddCrops() {
             <div>
               <label className="block text-gray-700 font-medium mb-1">Product Name</label>
               <input
+              value={productDetails.productName}
+                onChange={(e)=>setProductDetails({...productDetails,productName:e.target.value})}
                 type="text"
                 placeholder="e.g., Wheat, Paddy, Organic Urea"
                 className="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-green-400"
@@ -41,13 +119,11 @@ function AddCrops() {
             {/* Category */}
             <div>
               <label className="block text-gray-700 font-medium mb-1">Category</label>
-              <select className="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-green-400">
+              <select onChange={(e)=>setProductDetails({...productDetails,category:e.target.value})} value={productDetails.category} className="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-green-400">
                 <option>Select Category</option>
                 <option>Crops</option>
-                <option>Fertilizers</option>
                 <option>Seeds</option>
-                <option>Organic Manure</option>
-                <option>Others</option>
+                <option>Grains</option>
               </select>
             </div>
 
@@ -55,34 +131,52 @@ function AddCrops() {
             <div>
               <label className="block text-gray-700 font-medium mb-1">Price</label>
               <input
-                type="number"
+               value={productDetails.price}
+                onChange={(e)=>setProductDetails({...productDetails,price:e.target.value})}
+                type="text"
                 placeholder="Enter price"
                 className="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-green-400"
               />
             </div>
-
-            {/* Quantity */}
             <div>
-              <label className="block text-gray-700 font-medium mb-1">Quantity</label>
+              <label className="block text-gray-700 font-medium mb-1">Unit</label>
               <input
+               value={productDetails.unit}
+              onChange={(e)=>setProductDetails({...productDetails,unit:e.target.value})}
                 type="text"
-                placeholder="e.g., 50 kg, 20 bags"
+                placeholder="Enter unit"
+                className="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-green-400"
+              />
+            </div>
+            {/* description */}
+             <div>
+              <label className="block text-gray-700 font-medium mb-1">Description</label>
+              <input
+               value={productDetails.description}
+              onChange={(e)=>setProductDetails({...productDetails,description:e.target.value})}
+                type="text"
+                placeholder="Description"
                 className="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-green-400"
               />
             </div>
 
+           
+
             {/* Upload Image */}
-            <div>
-              <label className="block text-gray-700 font-medium mb-2">Upload Image</label>
-              <input
-                type="file"
-                className="w-full p-3 border rounded-lg bg-gray-100"
-              />
-            </div>
+           <div>
+                <label htmlFor="cropimage" className="block text-gray-700 font-medium mb-2">Upload Image</label>
+                <input
+                onChange={(e)=>{handleFile(e)}}
+                id="cropimage"
+                  type="file"
+                  className="w-full p-3 border rounded-lg bg-gray-100"
+                />
+              </div>
 
             {/* Submit */}
             <button
-              type="submit"
+             onClick={handleAddProduct}
+              type="button"
               className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition"
             >
               Submit Crop

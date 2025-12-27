@@ -1,8 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import FarmerHeader from '../components/FarmerHeader'
 import Footer from '../../common/Components/Footer'
+import { getAllNewsAPI } from '../../services/allAPI';
 
 function FarmerNews() {
+   const [news, setNews] = useState([]);
+    
+      const getNews=async()=>{
+        const result = await getAllNewsAPI() 
+      setNews(result.data)
+      }
+    
+      useEffect(() => {
+      getNews()
+      }, []);
   return (
     <>
     <FarmerHeader/>
@@ -15,35 +26,18 @@ function FarmerNews() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
         {/* News Card 1 */}
-        <div className="bg-white p-6 rounded-xl shadow-xl hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 border border-gray-200 rotate-[-1deg]">
-          <h3 className="text-xl font-bold text-gray-800 mb-2">Crop Prices Increase</h3>
+        {news? news.map((item,index)=>(
+<div key={index} className="bg-white p-6 rounded-xl shadow-xl hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 border border-gray-200 rotate-[-1deg]">
+          <h3 className="text-xl font-bold text-gray-800 mb-2">{item.headline}</h3>
           <p className="text-gray-600 mb-4">
-            Recent market trends show an increase in the prices of tomatoes and onions across
-            Kerala and Tamil Nadu due to heavy rainfall.
+            {item.description}
           </p>
+          <p className='text-gray-600 mb-4'>{item.date}</p>
           <button className="text-green-700 font-semibold hover:underline">Read More →</button>
         </div>
-
-        {/* News Card 2 */}
-        <div className="bg-white p-6 rounded-xl shadow-xl hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 border border-gray-200 rotate-[1deg]">
-          <h3 className="text-xl font-bold text-gray-800 mb-2">New Farming Scheme</h3>
-          <p className="text-gray-600 mb-4">
-            Government announces new subsidy program supporting organic farming and small-scale
-            agricultural startups.
-          </p>
-          <button className="text-green-700 font-semibold hover:underline">Read More →</button>
-        </div>
-
-        {/* News Card 3 */}
-        <div className="bg-white p-6 rounded-xl shadow-xl hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 border border-gray-200 rotate-[-1deg]">
-          <h3 className="text-xl font-bold text-gray-800 mb-2">Rainfall Alert</h3>
-          <p className="text-gray-600 mb-4">
-            IMD issues rainfall warning across multiple districts. Farmers advised to cover crops
-            and ensure proper drainage.
-          </p>
-          <button className="text-green-700 font-semibold hover:underline">Read More →</button>
-        </div>
-
+        )):
+        <p>No news available....</p>
+        }
       </div>
 
     </div>

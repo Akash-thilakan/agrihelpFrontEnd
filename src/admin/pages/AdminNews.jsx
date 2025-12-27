@@ -49,17 +49,7 @@ function AdminNews() {
                 className="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-green-400 resize-none"
               ></textarea>
             </div>
-
-            {/* Upload Image */}
-            <div>
-              <label className="block text-gray-700 font-medium mb-2">
-                Upload Image / Paper Clipping
-              </label>
-              <input
-                type="file"
-                className="w-full p-3 border rounded-lg bg-gray-100"
-              />
-            </div>
+            
 
             {/* Paper Cutting Sample Box */}
             <div className="bg-gray-100 border border-gray-300 rounded-xl p-5 shadow-inner">
@@ -67,9 +57,7 @@ function AdminNews() {
                 News Preview Layout:
               </p>
               <div className="bg-white rounded-lg shadow-md border p-4">
-                <div className="h-32 bg-gray-200 rounded-md mb-3 flex justify-center items-center text-gray-500">
-                  Image / Paper Cut Here
-                </div>
+                
                 <h3 className="text-lg font-bold text-gray-800">Headline appears here</h3>
                 <p className="text-gray-600 text-sm mt-1">Short news description preview...</p>
               </div>
