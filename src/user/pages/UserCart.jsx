@@ -3,7 +3,7 @@ import Footer from '../../common/Components/Footer'
 import UserHeader from '../components/UserHeader'
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { CartQuantityAPI, getCartAPI } from '../../services/allAPI';
+import { CartQuantityAPI, getCartAPI, makePaymentAPI } from '../../services/allAPI';
 import SERVERURL from '../../services/serverURL';
 
 function UserCart() {
@@ -29,6 +29,16 @@ const handleDecrement = async (cartId)=>{
   await CartQuantityAPI({cartId,action:"decrement"},reqHeader)
   handleGetCart()
 }
+  const handlePurchase = async () => {
+    try {
+      const result = await makePaymentAPI(reqHeader);
+      window.location.href = result.data.url;
+    } catch (error) {
+      console.error(error);
+      alert("Payment failed");
+    }
+  };
+
 
 
 useEffect(() => {
@@ -88,7 +98,7 @@ const totalPrice = cartItems.reduce((sum,item)=>sum+item.quantity*item.productId
           <span>₹{totalPrice}</span>
         </div>
 
-        <button className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+        <button  onClick={handlePurchase} className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition">
           Place Order
         </button>
       </div>

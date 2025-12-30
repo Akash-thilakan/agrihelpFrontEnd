@@ -1,10 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 function AdminHeader() {
+  const navigate =useNavigate()
+const handleLogout =()=>{
+  sessionStorage.clear()
+  navigate("/login")
+}
   return (
     <>
       <div className="w-full bg-green-700 text-white py-4 px-6 shadow-lg sticky top-0 z-50">
@@ -15,16 +20,7 @@ function AdminHeader() {
             <h1 className="text-xl font-bold">Agri Help</h1>
           </div>
 
-          {/* MIDDLE — Search Bar */}
-          <div className="hidden md:flex items-center bg-white rounded-full px-4 py-2 w-1/3">
-            <SearchIcon className="text-green-600" />
-            <input
-              type="text"
-              placeholder="Search crops, tools, workers..."
-              className="w-full ml-2 outline-none text-black"
-            />
-          </div>
-
+    
           {/* RIGHT — Navigation Icons & Logout */}
           <div className="flex items-center space-x-6 text-sm">
             <Link to="/adminhome" className="hover:text-green-300">
@@ -34,26 +30,31 @@ function AdminHeader() {
               users
             </Link>
 
-            <Link to="/adminproducts" className="hover:text-green-300">
+            <Link to="/farmers" className="hover:text-green-300">
               {" "}
-              products
+              Farmers
             </Link>
            
 
             <Link to="/adminnews" className="hover:text-green-300">
+              AddNews
+            </Link>
+
+            <Link to="/adminviewnews" className="hover:text-green-300">
               News
             </Link>
 
             <Link to="/admintips" className="hover:text-green-300">
               Tips
             </Link>
+            
             <Link to="/adminvedios" className="hover:text-green-300">
               Vedios
             </Link>
 
             <button className="flex items-center space-x-1 hover:text-red-300">
               <LogoutIcon fontSize="small" />
-              <span>Logout</span>
+              <span onClick={handleLogout} >Logout</span>
             </button>
           </div>
         </div>

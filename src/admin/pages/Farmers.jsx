@@ -4,26 +4,26 @@ import Footer from '../../common/Components/Footer'
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { deleteUserAPI, getAllUSersAPI } from '../../services/allAPI';
+import { deleteFarmerAPI, getAllFarmersAPI } from '../../services/allAPI';
 
-function Users() {
-  const [userDetails, setUserDetails] = useState([]);
-  const token = sessionStorage.getItem("token")
-   const reqHeader = {
-      Authorization: `Bearer ${token}`,
-    };
-  const getAllUsers = async()=>{
-    const result = await getAllUSersAPI(reqHeader)
-    setUserDetails(result.data)
-  }
+function Farmers() {
+  const [farmerDetails, setFarmerDetails] = useState([]);
+    const token = sessionStorage.getItem("token")
+     const reqHeader = {
+        Authorization: `Bearer ${token}`,
+      };
+    const getAllFarmers = async()=>{
+      const result = await getAllFarmersAPI(reqHeader)
+      setFarmerDetails(result.data)
+    }
 
-  const handleDeleteUser = async(id)=>{
-await deleteUserAPI(id,reqHeader)
-getAllUsers()
-  }
-  useEffect(() => {
-getAllUsers()
-  }, []);
+     const handleDeleteFarmer = async(id)=>{
+    await deleteFarmerAPI(id,reqHeader)
+    getAllFarmers()
+      }
+    useEffect(() => {
+    getAllFarmers()
+      }, []);
   return (
     <>
      <AdminHeader/>
@@ -31,7 +31,7 @@ getAllUsers()
 
       
       <h1 className="text-4xl font-bold text-green-700 text-center mb-10">
-        Manage Users
+        Manage Farmers
       </h1>
 
       
@@ -79,17 +79,17 @@ getAllUsers()
 
         </div>
 
-      </div> */}
+      </div>
 
       
-      {/* <h2 className="text-2xl font-bold text-gray-800 mb-4">
+      <h2 className="text-2xl font-bold text-gray-800 mb-4">
         Approved Farmers & Users
       </h2> */}
 
       <div className="space-y-4">
 
-        {userDetails?
-        userDetails.map((item)=>(
+         {farmerDetails?
+        farmerDetails.map((item)=>(
           <div key={item._id} className="bg-white p-4 rounded-xl shadow-md flex items-center justify-between border border-gray-200">
           
           <div>
@@ -97,7 +97,7 @@ getAllUsers()
             <p className="text-gray-600 text-sm">{item.role}</p>
           </div>
 
-          <button onClick={()=>handleDeleteUser(item._id)} className="bg-red-600 text-white p-2 rounded-full hover:bg-red-700 transition">
+          <button onClick={()=>handleDeleteFarmer(item._id)}  className="bg-red-600 text-white p-2 rounded-full hover:bg-red-700 transition">
             <DeleteIcon />
           </button>
 
@@ -107,10 +107,12 @@ getAllUsers()
         <p>No Users Available...</p>
         }
       </div>
-    </div> 
+
+    </div>
+    
     <Footer/>
     </>
   )
 }
 
-export default Users
+export default Farmers

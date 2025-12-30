@@ -55,3 +55,60 @@ export const getAToolFarmerAPI = async(id, reqHeader) => {
 export const addCropAPI = async(reqbody, reqHeader) => {
     return await commonAPI("POST", `${SERVERURL}/addcrop`, reqbody, reqHeader)
 }
+
+export const addTipAPI = async(reqBody) => {
+    return await commonAPI("POST", `${SERVERURL}/addtip`, reqBody)
+}
+
+//admin
+export const deleteProductAPI = async(type, id, reqHeader) => {
+    return await commonAPI("DELETE", `${SERVERURL}/deleteproduct/${type}/${id}`, "", reqHeader)
+}
+
+export const deleteTipAPI = async(id, reqHeader) => {
+    return await commonAPI("DELETE", `${SERVERURL}/deletetip/${id}`, "", reqHeader)
+}
+
+export const getAllUSersAPI = async(reqHeader) => {
+    return await commonAPI("GET", `${SERVERURL}/allusers`, "", reqHeader)
+}
+
+export const deleteUserAPI = async(id, reqHeader) => {
+    return await commonAPI("DELETE", `${SERVERURL}/deleteuser/${id}`, "", reqHeader)
+}
+
+export const getAllFarmersAPI = async(reqHeader) => {
+    return await commonAPI("GET", `${SERVERURL}/allfarmers`, "", reqHeader)
+}
+
+export const deleteFarmerAPI = async(id, reqHeader) => {
+    return await commonAPI("DELETE", `${SERVERURL}/deletefarmer/${id}`, "", reqHeader)
+}
+
+export const deleteNewsAPI = async(id, reqHeader) => {
+    return await commonAPI("DELETE", `${SERVERURL}/deletenews/${id}`, "", reqHeader)
+}
+
+export const addNewsAPI = async(reqBody, reqHeader) => {
+    return await commonAPI("POST", `${SERVERURL}/addnews`, reqBody, reqHeader)
+}
+
+export const addVediosAPI = async(reqBody, reqHeader) => {
+    return await commonAPI("POST", `${SERVERURL}/addvedio`, reqBody, reqHeader)
+}
+
+export const getAllVediosAPI = async() => {
+    return await commonAPI("GET", `${SERVERURL}/allvedios`)
+}
+
+export const deleteVedioAPI = async(id, reqHeader) => {
+    return await commonAPI("DELETE", `${SERVERURL}/deletevedio/${id}`, "", reqHeader)
+}
+
+export const makePaymentAPI = async(reqHeader) => {
+    return await commonAPI("POST", `${SERVERURL}/makepayment`, "", reqHeader);
+};
+
+export const clearCartAPI = async(reqHeader) => {
+    return await commonAPI("DELETE", `${SERVERURL}/clearcart`, "", reqHeader);
+};

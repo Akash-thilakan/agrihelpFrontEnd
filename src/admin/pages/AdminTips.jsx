@@ -1,9 +1,41 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AdminHeader from '../components/AdminHeader'
 import Footer from '../../common/Components/Footer'
 import DeleteIcon from "@mui/icons-material/Delete";
+import { deleteTipAPI, getAllTipsAPI } from '../../services/allAPI';
+import { toast } from 'react-toastify';
 
 function AdminTips() {
+
+   const [tips, setTips] = useState([]);
+  
+    const getTips=async()=>{
+      const result = await getAllTipsAPI()
+  setTips(result.data)    
+    }
+
+    const handleDeleteTip=async(id)=>{
+          const token = sessionStorage.getItem("token")
+        const reqHeader = {
+          Authorization: `Bearer ${token}`,
+        };
+    
+        const result = await deleteTipAPI(id,reqHeader)
+        if(result.status===200){
+          toast.success("Tip Deleted Successfully")
+          getTips()
+        }else{
+          toast.error("deletion failed")
+        }
+        
+    
+        }
+
+
+    
+    useEffect(() => {
+  getTips()
+    }, []);
   return (
     <>
     <AdminHeader/>
@@ -16,134 +48,28 @@ function AdminTips() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
 
         {/* Tip Card 1 */}
-        <div className="relative rounded-xl overflow-hidden shadow-xl hover:scale-105 transition transform duration-300 cursor-pointer">
-          
-          {/* Delete Button */}
-          <button className="absolute top-3 right-3 bg-red-600 p-2 rounded-full text-white hover:bg-red-700 z-20">
+        {tips?tips.map((item)=>(
+          <div key={item._id} className="relative rounded-xl overflow-hidden shadow-xl hover:scale-105 transition transform duration-300 cursor-pointer">
+          <button onClick={()=>handleDeleteTip(item._id)} className="absolute top-3 right-3 bg-red-600 p-2 rounded-full text-white hover:bg-red-700 z-20">
             <DeleteIcon fontSize="small" />
           </button>
 
           <img
-            src="https://images.pexels.com/photos/207247/pexels-photo-207247.jpeg"
+            src={item.imageUrl}
             className="w-full h-56 object-cover brightness-75"
             alt="Rice Farming"
           />
-
           <div className="absolute inset-0 p-5 flex flex-col justify-end text-white">
-            <h2 className="text-2xl font-bold">Rice Cultivation</h2>
+            <h2 className="text-2xl font-bold">{item.title}</h2>
             <p className="text-sm mt-2">
-              Maintain proper water levels and ensure fields are free from weeds.
+              {item.description}
             </p>
           </div>
         </div>
-
-        {/* Tip Card 2 */}
-        <div className="relative rounded-xl overflow-hidden shadow-xl hover:scale-105 transition transform duration-300 cursor-pointer">
-          
-          <button className="absolute top-3 right-3 bg-red-600 p-2 rounded-full text-white hover:bg-red-700 z-20">
-            <DeleteIcon fontSize="small" />
-          </button>
-
-          <img
-            src="https://images.unsplash.com/photo-1518843875459-f738682238a6?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHZlZ2V0YWJsZXN8ZW58MHx8MHx8fDA%3D"
-            className="w-full h-56 object-cover brightness-75"
-            alt="Vegetables"
-          />
-
-          <div className="absolute inset-0 p-5 flex flex-col justify-end text-white">
-            <h2 className="text-2xl font-bold">Vegetable Growth</h2>
-            <p className="text-sm mt-2">
-              Use organic compost and maintain soil moisture for better yields.
-            </p>
-          </div>
-        </div>
-
-        {/* Tip Card 3 */}
-        <div className="relative rounded-xl overflow-hidden shadow-xl hover:scale-105 transition transform duration-300 cursor-pointer">
-          
-          <button className="absolute top-3 right-3 bg-red-600 p-2 rounded-full text-white hover:bg-red-700 z-20">
-            <DeleteIcon fontSize="small" />
-          </button>
-
-          <img
-            src="https://static.vecteezy.com/system/resources/previews/030/636/974/large_2x/corn-image-hd-free-photo.jpg"
-            className="w-full h-56 object-cover brightness-75"
-            alt="Corn"
-          />
-
-          <div className="absolute inset-0 p-5 flex flex-col justify-end text-white">
-            <h2 className="text-2xl font-bold">Corn Farming</h2>
-            <p className="text-sm mt-2">
-              Ensure proper spacing and provide nitrogen-rich fertilizers.
-            </p>
-          </div>
-        </div>
-
-        {/* Tip Card 4 */}
-        <div className="relative rounded-xl overflow-hidden shadow-xl hover:scale-105 transition transform duration-300 cursor-pointer">
-          
-          <button className="absolute top-3 right-3 bg-red-600 p-2 rounded-full text-white hover:bg-red-700 z-20">
-            <DeleteIcon fontSize="small" />
-          </button>
-
-          <img
-            src="https://images.pexels.com/photos/302804/pexels-photo-302804.jpeg"
-            className="w-full h-56 object-cover brightness-75"
-            alt="Banana"
-          />
-
-          <div className="absolute inset-0 p-5 flex flex-col justify-end text-white">
-            <h2 className="text-2xl font-bold">Banana Plants</h2>
-            <p className="text-sm mt-2">
-              Protect from strong winds and water regularly to avoid dryness.
-            </p>
-          </div>
-        </div>
-
-        {/* Tip Card 5 */}
-        <div className="relative rounded-xl overflow-hidden shadow-xl hover:scale-105 transition transform duration-300 cursor-pointer">
-          
-          <button className="absolute top-3 right-3 bg-red-600 p-2 rounded-full text-white hover:bg-red-700 z-20">
-            <DeleteIcon fontSize="small" />
-          </button>
-
-          <img
-            src="https://images.pexels.com/photos/1000055/pexels-photo-1000055.jpeg"
-            className="w-full h-56 object-cover brightness-75"
-            alt="Coconut"
-          />
-
-          <div className="absolute inset-0 p-5 flex flex-col justify-end text-white">
-            <h2 className="text-2xl font-bold">Coconut Farming</h2>
-            <p className="text-sm mt-2">
-              Provide proper spacing and avoid waterlogging at the base.
-            </p>
-          </div>
-        </div>
-
-        {/* Tip Card 6 */}
-        <div className="relative rounded-xl overflow-hidden shadow-xl hover:scale-105 transition transform duration-300 cursor-pointer">
-          
-          <button className="absolute top-3 right-3 bg-red-600 p-2 rounded-full text-white hover:bg-red-700 z-20">
-            <DeleteIcon fontSize="small" />
-          </button>
-
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQatcZr5Qq8jVXBvhlYDsBMS9fZfcj6nstrgg&s"
-            className="w-full h-56 object-cover brightness-75"
-            alt="Tea Plantation"
-          />
-
-          <div className="absolute inset-0 p-5 flex flex-col justify-end text-white">
-            <h2 className="text-2xl font-bold">Tea Plantation</h2>
-            <p className="text-sm mt-2">
-              Maintain shade and prune regularly for healthy growth.
-            </p>
-          </div>
-        </div>
-
+        )):
+        <p>No tips here...</p>
+      }
       </div>
-
     </div>
      <Footer/>
     </>

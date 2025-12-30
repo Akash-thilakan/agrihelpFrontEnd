@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 import Footer from "../../common/Components/Footer";
-import { getAcropFarmerAPI, getAToolFarmerAPI } from "../../services/allAPI";
+import { AddToCartAPI, getAcropFarmerAPI, getAToolFarmerAPI } from "../../services/allAPI";
 import { useParams } from "react-router-dom";
 import FarmerHeader from "../components/FarmerHeader";
 import SERVERURL from "../../services/serverURL";
+import { toast } from "react-toastify";
 
 function FarmerViewProduct() {
 
@@ -29,6 +30,30 @@ function FarmerViewProduct() {
         console.log(error);
       }
     };
+
+    const handleAddToCart = async()=>{
+        const token = sessionStorage.getItem("token")
+        const reqHeader = {
+          Authorization: `Bearer ${token}`,
+        };
+    
+        const reqBody = {
+          productId:cropData._id,
+          productType:type
+        }
+        console.log(reqBody);
+        try{
+          const result = await AddToCartAPI(reqBody,reqHeader)
+          if(result.status==200){
+            toast.success("Added to cart 🛒")
+          }
+        }catch(error){
+          toast.error("failed to add to cart")
+          console.log(error);
+          
+        }
+        
+      }
 
   useEffect(() => {
     getAcrop();
@@ -73,6 +98,7 @@ function FarmerViewProduct() {
               </div>
               <div className="mt-8 flex gap-4">
                 <button
+                 onClick={handleAddToCart}
                   className="px-8 py-3 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 transition"
                 >
                 Add to Cart

@@ -23,14 +23,6 @@ const handleLogout =()=>{
 
 
       
-        <div className="hidden md:flex items-center bg-white rounded-full px-4 py-2 w-1/3">
-          <SearchIcon className="text-green-600" />
-          <input
-            type="text"
-            placeholder="Search crops, tools, workers..."
-            className="w-full ml-2 outline-none text-black"
-          />
-        </div>
 
 
         <div className="flex items-center space-x-6 text-sm">

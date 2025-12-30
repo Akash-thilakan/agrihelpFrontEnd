@@ -1,8 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
 import FarmerHeader from '../components/FarmerHeader'
 import Footer from '../../common/Components/Footer'
+import { addTipAPI } from '../../services/allAPI';
+import { toast } from 'react-toastify';
 
 function AddTips() {
+  const [tipData, setTipData] = useState({
+    title:"",
+    description:"",
+    imageUrl:"",
+  });
+
+  const handleAddTip = async()=>{
+    console.log(tipData);
+    try{
+      const result = await addTipAPI(tipData)
+      console.log(result);
+      if(result.status===200){
+          toast.success("Tip added successfully ")
+           setTipData({
+      title:"",
+      description:"",
+      imageUrl:"",
+    })
+      }else if(result.status==401){
+          toast.warning(result.response.data)
+      }else{
+          toast.error("error in adding Tip")
+      }
+      
+    }catch(error){
+      toast.error("something went wrong")
+      
+    }
+   
+  }
+
   return (
     <>
     <FarmerHeader/>
@@ -31,6 +64,8 @@ function AddTips() {
                 Tip Title
               </label>
               <input
+              value={tipData.title}
+               onChange={(e)=>setTipData({...tipData,title:e.target.value})}
                 type="text"
                 placeholder="e.g., Best Time to Water Your Crops"
                 className="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-green-400"
@@ -42,6 +77,8 @@ function AddTips() {
                 Image
               </label>
               <input
+              value={tipData.imageUrl}
+              onChange={(e)=>setTipData({...tipData,imageUrl:e.target.value})}
                 type="text"
                 placeholder="Place Your Image Url Here.."
                 className="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-green-400"
@@ -54,6 +91,8 @@ function AddTips() {
                 Description
               </label>
               <textarea
+              value={tipData.description}
+              onChange={(e)=>setTipData({...tipData,description:e.target.value})}
                 rows="5"
                 placeholder="Explain the tip in detail so other farmers can benefit..."
                 className="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-green-400 resize-none"
@@ -62,7 +101,8 @@ function AddTips() {
 
             {/* Submit Button */}
             <button
-              type="submit"
+            onClick={handleAddTip}
+              type="button"
               className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition"
             >
               Publish Tip

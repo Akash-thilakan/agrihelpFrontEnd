@@ -105,14 +105,16 @@ if(!username || !email || !password || !role){
 
   return (
     <>
-      <div className="w-full min-h-screen flex justify-center items-center flex-col bg-[url(https://static.investindia.gov.in/s3fs-public/2022-08/pexels-pixabay-207247.jpg)] bg-no-repeat bg-cover bg-center">
+      <div className="w-full min-h-screen flex justify-center items-center flex-col bg-[url(https://wallpapercat.com/w/full/c/5/e/268946-3840x2160-desktop-4k-farm-wallpaper-photo.jpg)] bg-no-repeat bg-cover bg-center">
+      <div className="absolute  inset-0 bg-black/60 pointer-events-none"></div>
+       <div className="relative z-10 w-full min-h-screen flex justify-center items-center flex-col">
         <div className="p-10">
           <h1 className="text-4xl text-white font-bold text-center">
             AGRI HELP
           </h1>
           <div
             style={{ width: "400px" }}
-            className="bg-green-700 text-white p-5 flex flex-col my-5 justify-center items-center"
+            className="bg-green-950 text-white p-5 flex flex-col my-5 justify-center items-center"
           >
             <div
               style={{ width: "100px", height: "100px", borderRadius: "50%" }}
@@ -239,6 +241,7 @@ if(!username || !email || !password || !role){
               </div>
             </form>
           </div>
+        </div>
         </div>
       </div>
     </>

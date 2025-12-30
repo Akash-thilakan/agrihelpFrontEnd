@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import FarmerHeader from '../components/FarmerHeader'
+import SearchIcon from "@mui/icons-material/Search";
 import Footer from '../../common/Components/Footer'
 import { getAllCropsAPI } from '../../services/allAPI';
 import SERVERURL from '../../services/serverURL';
@@ -41,6 +42,7 @@ function FarmerHome() {
 
         {/* Content */}
         <div className="relative z-10 px-6 max-w-3xl">
+             
           <h1 className="text-5xl font-extrabold drop-shadow-lg animation-float">
             Welcome, Farmer
           </h1>
@@ -50,6 +52,15 @@ function FarmerHome() {
             Your hard work feeds millions.  
             We salute your dedication and support you with the best tools and services.
           </p>
+        {/* MIDDLE — Search Bar */}
+        <div className="hidden md:flex items-center bg-white rounded-full px-4 py-2 my-2 w-full">
+          <SearchIcon className="text-green-600" />
+          <input
+            type="text"
+            placeholder="Search crops, tools, workers..."
+            className="w-full ml-2 outline-none text-black"
+          />
+        </div>
         </div>
       </div>
 

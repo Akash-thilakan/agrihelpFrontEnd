@@ -25,14 +25,14 @@ const handleLogout =()=>{
 
 
         {/* MIDDLE — Search Bar */}
-        <div className="hidden md:flex items-center bg-white rounded-full px-4 py-2 w-1/3">
+        {/* <div className="hidden md:flex items-center bg-white rounded-full px-4 py-2 w-1/3">
           <SearchIcon className="text-green-600" />
           <input
             type="text"
             placeholder="Search crops, tools, workers..."
             className="w-full ml-2 outline-none text-black"
           />
-        </div>
+        </div> */}
 
 
         {/* RIGHT — Navigation Icons & Logout */}
@@ -46,7 +46,10 @@ const handleLogout =()=>{
           <Link to="/farmernews" className="hover:text-green-300">News</Link>
 
           <Link to="/farmertips" className="hover:text-green-300">Tips</Link>
-<Link to="/addtips" className="hover:text-green-300">Add Tips</Link>
+
+          <Link to="/addtips" className="hover:text-green-300">Add Tips</Link>
+
+          <Link to="/farmerviewvedios" className="hover:text-green-300">Vedios</Link>
 
 
           <Link to="/farmercart">

@@ -23,12 +23,15 @@ import FarmerNews from './farmer/pages/FarmerNews'
 import FarmerTips from './farmer/pages/FarmerTips'
 import Users from './admin/pages/Users'
 import AdminTips from './admin/pages/AdminTips'
-import FarmerPayment from './farmer/pages/FarmerPayment'
 import { ToastContainer } from 'react-toastify'
 import UserViewProduct from './user/pages/UserViewProduct'
 import UserTools from './user/pages/UserTools'
-import AdminProducts from './admin/pages/AdminProducts'
 import FarmerViewProduct from './farmer/pages/FarmerViewProducts'
+import FarmerViewVedios from './farmer/pages/FarmerViewVedios'
+import Farmers from './admin/pages/Farmers'
+import AdminViewNews from './admin/pages/AdminViewNews'
+import PaymentSucces from './common/Pages/PaymentSuccess'
+import PaymentError from './common/Pages/PaymentError'
 
 
 function App() {
@@ -38,14 +41,17 @@ function App() {
     <>
      <Routes>
       <Route path='/' element={<LandingPage/>}  />
+      <Route path='/paymentsuccess' element={<PaymentSucces/>}  />
+      <Route path='/paymenterror' element={<PaymentError/>}  />
       <Route path='/login' element={<Auth/>}  />
       <Route path='/register' element={<Auth register />}  />
       <Route path='/adminhome' element={<AdminHome/>}  />
       <Route path='/adminnews' element={<AdminNews/>}  />
+      <Route path='/adminviewnews' element={<AdminViewNews/>}  />
       <Route path='/admintips' element={<AdminTips/>}  />
       <Route path='/adminvedios' element={<AdminVedios/>}  />
-      <Route path='/adminproducts' element={<AdminProducts/>}  />
       <Route path='/users' element={<Users/>}  />
+      <Route path='/farmers' element={<Farmers/>}  />
       <Route path='/products' element={<Products/>}  />
       <Route path='/farmerhome' element={<FarmerHome/>}  />
       <Route path='/addcrops' element={<AddCrops/>}  />
@@ -53,7 +59,7 @@ function App() {
       <Route path='/farmercart' element={<FarmerCart/>}  />
       <Route path='/farmertips' element={<FarmerTips/>}  />
       <Route path='/farmernews' element={<FarmerNews/>}  />
-      <Route path='/farmerpayment' element={<FarmerPayment/>}  />
+      <Route path='/farmerviewvedios' element={<FarmerViewVedios/>}  />
       <Route path="/farmerviewproduct/:type/:id" element={<FarmerViewProduct/>}  />
       <Route path='/usercart' element={<UserCart/>}  />
       <Route path='/userhome' element={<UserHome/>}  />
